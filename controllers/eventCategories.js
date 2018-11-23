@@ -12,7 +12,7 @@ const middlewares = {
     },
     read(req, res, next) {
         return eventCategories
-            .findById(req.params.id, { attributes: ['id', 'name'] })
+            .findById(req.params.categoryId, { attributes: ['id', 'name'] })
             .then(category => res.status(200).send(category));
     },
     readAll(req, res, next) {
@@ -24,7 +24,7 @@ const middlewares = {
         return eventCategories
             .update(
                 { name: req.body.name },
-                { returning: true, where: { id: req.params.id }})
+                { returning: true, where: { id: req.params.categoryId }})
             .then(([rowsUpdated, [updatedCategory]]) => res.status(200).send({
                 id: updatedCategory.id,
                 name: updatedCategory.name
@@ -32,7 +32,7 @@ const middlewares = {
     },
     delete(req, res, next) {
         return eventCategories
-            .destroy({ where: { id: req.params.id }})
+            .destroy({ where: { id: req.params.categoryId }})
             .then(() => res.status(204).send());
     }
 };
