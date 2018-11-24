@@ -1,11 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
-
     const event_categories = sequelize.define('event_categories', {
         name: {
+            allowNull: false,
             type: DataTypes.STRING,
-            validate: {
-                allowNull: false
-            }
         },
     }, {});
 
