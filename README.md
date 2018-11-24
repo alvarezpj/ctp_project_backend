@@ -1,5 +1,25 @@
 # CTP Project (Backend)
 
+## Getting Started
+
+Run the following commands:
+```bash
+# with Postgres installed and configured, create database and user
+createuser -P -s -e ctp_user
+createdb -h localhost -U ctp_user db_development
+
+# with npm installed, install sequelize-cli
+npm install -g sequelize-cli
+
+# run the backend by ...
+cd ctp_project_backend
+npm install
+sequelize db:migrate
+npm run start:dev
+
+# Nodemon is installed, so the server will restart after any file changes :)
+```
+
 ## Tables
 
 | events |
