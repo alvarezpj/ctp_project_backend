@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             type: DataTypes.STRING,
         },
-    }, {});
+    }, { underscored: true });
 
     event_categories.associate = (models) => {
         // associations can be defined here
