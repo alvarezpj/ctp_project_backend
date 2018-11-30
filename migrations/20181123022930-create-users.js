@@ -24,17 +24,9 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-            isActive: {
+            is_active: {
                 defaultValue: true,
                 type: Sequelize.BOOLEAN,
-            },
-            createdAt: {
-                allowNull: false,
-                type: Sequelize.DATE
-            },
-            updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE
             }
         });
     },
