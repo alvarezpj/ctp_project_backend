@@ -1,5 +1,7 @@
 # CTP Project (Backend)
 
+
+
 ## Getting Started
 
 Run the following commands:
@@ -8,41 +10,45 @@ Run the following commands:
 createuser -P -s -e ctp_user
 createdb -h localhost -U ctp_user db_development
 
-# with npm installed, install sequelize-cli
-npm install -g sequelize-cli
-
-# run the backend by ...
-cd ctp_project_backend
+# now, run the server
+git clone git@github.com:alvarezpj/ctp_project_backend.git
+cd ./ctp_project_backend
 npm install
-sequelize db:migrate
-npm run start:dev
+./node_modules/.bin/sequelize db:migrate
+./node_modules/.bin/sequelize db:seed:all
+node app.js
 
-# Nodemon is installed, so the server will restart after any file changes :)
+# for development purposes, run 'npm run start:dev' instead of 'node app.js'
 ```
 
-## Tables
 
-| events |
-|:------:|
-| id : UUID (PK) |
-| name : STRING |
-| category : INTEGER (FK) |
-| description : TEXT |
-| capacity : INTEGER |
-| attending : INTEGER |
-| address : STRING |
-| neighborhood : INTEGER (FK) |
-| longitude : FLOAT |
-| latitude : FLOAT |
-| organizer : INTEGER (FK) |
-| event_time : DATE {TIMESTAMP} |
-| event_date : DATEONLY |
-| duration : INTEGER |
+
+## Database Tables/Schema
 
 | categories |
 |:----------:|
 | id : INTEGER (PK) |
 | name : STRING |
+
+| events |
+|:------:|
+| id : INTEGER (PK) |
+| name : STRING |
+| category_id : INTEGER (FK, references(categories, id)) |
+| description : TEXT |
+| capacity : INTEGER |
+| address : STRING |
+| neighborhood_id : INTEGER (FK, references(new_york_city_neighborhoods, id)) |
+| longitude : FLOAT |
+| latitude : FLOAT |
+| organizer_id : INTEGER (FK, references(users, id)) |
+| date_time : DATE {TIMESTAMP} |
+| duration : INTEGER |
+
+| new_york_city_neighborhoods |
+|:------------:|
+| id : INTEGER (PK) |
+| name: STRING |
 
 | users |
 |:-----:|
@@ -50,142 +56,51 @@ npm run start:dev
 | first_name : STRING |
 | last_name : STRING |
 | email : STRING, UNIQUE |
-| isActive : BOOLEAN |
+| is_active : BOOLEAN |
 
 | users_events |
 |:------------:|
 | id : INTEGER (PK) |
-| event_id : INTEGER (FK) |
-| user_id : INTEGER (FK) |
+| event_id : INTEGER (FK, references(events, id)) |
+| user_id : INTEGER (FK, references(users, id)) |
 
-| neighborhood |
-|:------------:|
-| id : INTEGER (PK) |
-| name: STRING, UNIQUE |
 
 
 ## Available Endpoints
 
-### categories
+### table: categories
 
-* GET /category - retrieve all categories
-* GET /category/:categoryId - retrieve category name by id
-```javascript
-{
-    id: category_id,
-    name: category_name
-}
-```
 * POST /category - create new category
-```javascript
-{
-    name: category_name
-}
-```
-* PUT /category/:categoryId - update an existing category's name
-```javascript
-{
-    name: category_name
-}
-```
+* GET /category - retrieve all categories
+* GET /category/:categoryId/event - retrieve all events associated to a category
+* GET /category/:categoryId - retrieve category by id
+* PUT /category/:categoryId - update an existing category
 * DELETE /category/:categoryId - delete an existing category
 
-### events
+### table: events
 
+* POST /event - create new event
 * GET /event - retrieve all events
 * GET /event/:eventId - retrieve event by id
-```javascript
-{
-    id: event_id,
-    name: event_name,
-    category: event_category,
-    description: event_description,
-    capacity: number_seats_available,
-    attending: number_people_attending_event,
-    address: event_location,
-    neighborhood: event_neighborhood,
-    longitude: event_longitude,
-    latitude: event_latitude,
-    organizer: event_organizer,
-    event_time: event_time_timestamp_like_2018-11-23 21:16:00.537 +00:00,
-    event_date: event_date_like_2018-11-23,
-    duration: event_duration_in_minutes
-}
-```
-* POST /event - create new event
-```javascript
-{
-    name: event_name,
-    category: event_category,
-    description: event_description,
-    capacity: number_seats_available,
-    address: event_location,
-    neighborhood: event_neighborhood,
-    longitude: event_longitude,
-    latitude: event_latitude,
-    organizer: event_organizer,
-    event_time: event_time_timestamp_like_2018-11-23 21:16:00.537 +00:00,
-    event_date: event_date_like_2018-11-23,
-    duration: event_duration_in_minutes
-}
-```
 * PUT /event/:eventId - update existing event
-```javascript
-{
-    name: event_name,
-    category: event_category,
-    description: event_description,
-    capacity: number_seats_available,
-    attending: number_people_attending_event,
-    address: event_location,
-    neighborhood: event_neighborhood,
-    longitude: event_longitude,
-    latitude: event_latitude,
-    organizer: event_organizer,
-    event_time: event_time_timestamp_like_2018-11-23 21:16:00.537 +00:00,
-    event_date: event_date_like_2018-11-23,
-    duration: event_duration_in_minutes
-}
-```
 * DELETE /event/:eventId - delete existing event
 
-### users
+### table: new_york_city_neighborhoods
 
-* GET /user/:userId - retrieve user by id
-```javascript
-{
-    id: user_id,
-    first_name: user_first_name,
-    last_name: user_last_name,
-    email: user_email_address,
-    password_hash: salted_password_hash,
-    isActive: is_user_active?
-}
-```
+* GET /neighborhood - retrieve all neighborhoods
+* GET /neighborhood/:neighborhoodId - retrieve single neighborhood by id
+* GET /neighborhood/:neighborhoodId/event - retrieve all events associated to a neighborhood
+
+### table: users
+
 * POST /user - create new user
-```javascript
-{
-    first_name: user_first_name,
-    last_name: user_last_name,
-    email: user_email_address,
-    password_hash: salted_password_hash,
-}
-```
-* PUT /user/:userId - update existing user. Endpoint can be used to "delete" an existing user by setting the ```isActive``` flag to ```false```.
-```javascript
-{
-    first_name: user_first_name,
-    last_name: user_last_name,
-    email: user_email_address,
-    password_hash: salted_password_hash,
-    isActive: is_user_active?
-}
-```
+* POST /user/:userId/event/eventId - allow user join a specific event
+* GET /user/:userId/event - retrieve all events associated to a user
+* GET /user/:userId - retrieve single user by id
+* PUT /user/:userId - update existing user. Endpoint can be used to "delete" an existing user by setting the ```is_active``` flag to ```false```.
+
 
 
 ## What's Missing?
 
-* CRUD operations for ```users_events``` and ```neighborhoods``` tables
-* associations among tables
-* multiple-table queries
 * user authentication with Passport.js
