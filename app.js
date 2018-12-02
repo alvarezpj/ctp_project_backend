@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const eventCategoriesRouter = require('./routers/eventCategories');
 const eventsRouter = require('./routers/events');
 const usersRouter = require('./routers/users');
+const newYorkCityNeighborhoodsRouter = require('./routers/newYorkCityNeighborhoods');
 
 
 const app = express();
@@ -17,10 +18,15 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// mount routers
+/* mount routers */
+// mount event categories router
 app.use('/category', eventCategoriesRouter);
+// mount events router
 app.use('/event', eventsRouter);
+// mount users router
 app.use('/user', usersRouter);
+// mount new york city neighborhoods router
+app.use('/neighborhood', newYorkCityNeighborhoodsRouter);
 
 // catch-all route
 app.get('*', (req, res, next) => {
