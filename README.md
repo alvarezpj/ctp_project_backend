@@ -103,4 +103,5 @@ node app.js
 
 ## What's Missing?
 
+* error handling
 * user authentication with Passport.js
