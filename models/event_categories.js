@@ -4,10 +4,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             type: DataTypes.STRING,
         },
-    }, { underscored: true });
+    }, { timestamps: false });
 
     event_categories.associate = (models) => {
         // associations can be defined here
+        event_categories.hasMany(models.events, {
+            foreignKey: 'category_id',
+            sourceKey: 'id'
+        });
     };
 
     return event_categories;
