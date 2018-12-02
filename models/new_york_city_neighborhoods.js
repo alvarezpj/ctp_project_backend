@@ -1,14 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-    const neighborhoods = sequelize.define('neighborhoods', {
+    const new_york_city_neighborhoods = sequelize.define('new_york_city_neighborhoods', {
         name: {
             allowNull: false,
             type: DataTypes.STRING
         }
-    }, {});
+    }, { timestamps: false });
 
-    neighborhoods.associate = function(models) {
+    new_york_city_neighborhoods.associate = function(models) {
         // associations can be defined here
+        new_york_city_neighborhoods.hasMany(models.events, {
+            foreignKey: 'neighborhood_id',
+            sourceKey: 'id'
+        })
     };
 
-    return neighborhoods;
+    return new_york_city_neighborhoods;
 };
