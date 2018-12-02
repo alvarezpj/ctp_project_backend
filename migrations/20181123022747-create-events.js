@@ -3,15 +3,15 @@ module.exports = {
         return queryInterface.createTable('events', {
             id: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
-                defaultValue: Sequelize.UUIDV4,
-                type: Sequelize.UUID,
+                type: Sequelize.INTEGER,
             },
             name: {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-            category: {
+            category_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
             },
@@ -20,11 +20,6 @@ module.exports = {
                 type: Sequelize.TEXT,
             },
             capacity: {
-                allowNull: false,
-                type: Sequelize.INTEGER,
-            },
-            attending: {
-                defaultValue: 0,
                 type: Sequelize.INTEGER,
             },
             address: {
@@ -32,7 +27,7 @@ module.exports = {
                 notEmpty: true,
                 type: Sequelize.STRING,
             },
-            neighborhood: {
+            neighborhood_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
             },
@@ -44,29 +39,16 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.FLOAT,
             },
-            organizer: {
+            organizer_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
             },
-            event_time: {
+            date_time: {
                 allowNull: false,
                 type: Sequelize.DATE,
             },
-            event_date: {
-                allowNull: false,
-                type: Sequelize.DATEONLY,
-            },
             duration: {
-                allowNull: false,
                 type: Sequelize.INTEGER,
-            },
-            createdAt: {
-                allowNull: false,
-                type: Sequelize.DATE
-            },
-            updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE
             }
         });
     },
