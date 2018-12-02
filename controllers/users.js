@@ -1,37 +1,60 @@
 const users = require('../models').users;
+const events = require('../models').events;
+const usersEvents = require('../models').users_events;
+const eventCategories = require('../models').event_categories;
+const newYorkCityNeighborhoods = require('../models').new_york_city_neighborhoods;
+const { formatUser } = require('./helpers');
+const { formatUserWithEvents } = require('./helpers');
 
 
-const userAttributes = ['id', 'first_name', 'last_name', 'email', 'password_hash', 'isActive'];
-
-// implement basic CRUD functionality
 const middlewares = {
+    // create an user
     create(req, res, next) {
         return users
-            .create(req.body, { fields: userAttributes })
-            .then(user => res.status(201).send({
-                id: user.id,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                email: user.email
-            }));
+            .create(req.body)
+            .then(user => res.status(201).json(formatUser(user)));
     },
+    // create an user-event association in users_events join table
+    joinEvent(req, res, next) {
+        return usersEvents
+            .create(req.body)
+            .then(userEvent => res.status(201).json(userEvent));
+    },
+    // retrieve all events associated to a user
+    readAllEvents(req, res, next) {
+        return users
+            .findById(
+                req.params.userId,
+                {
+                    include: [{
+                        model: events, include: [
+                            { model: eventCategories },
+                            { model: newYorkCityNeighborhoods },
+                            { model: users, as: 'organizer' },
+                            { model: users, as: 'attending' }
+                        ]
+                    }]
+                }
+            )
+            .then(user => res.status(200).json(formatUserWithEvents(user)));
+    },
+    // retrieve single user
     read(req, res, next) {
         return users
-            .findById(req.params.userId, { attributes: userAttributes.filter(attribute => attribute != 'password_hash') })
-            .then(user => res.status(200).send(user));
+            .findById(req.params.userId)
+            .then(user => res.status(200).json(formatUser(user)));
     },
+    // update single user
     update(req, res, next) {
         return users
             .update(
                 req.body,
-                { returning: true, where: { id: req.params.userId }})
-            .then(([rowsUpdated, [updatedUser]]) => res.status(200).send({
-                id: updatedUser.id,
-                first_name: updatedUser.first_name,
-                last_name: updatedUser.last_name,
-                email: updatedUser.email,
-                isActive: updatedUser.isActive
-            }));
+                {
+                    returning: true,
+                    where: { id: req.params.userId }
+                }
+            )
+            .then(([rowsUpdated, [updatedUser]]) => res.status(200).json(formatUser(updatedUser)));
     },
 };
 
