@@ -21,10 +21,15 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: true,
             type: DataTypes.BOOLEAN,
         }
-    }, {});
+    }, { timestamps: false });
 
     users.associate = function(models) {
         // associations can be defined here
+        users.belongsToMany(models.events, {
+            through: models.users_events,
+            foreignKey: 'user_id',
+            otherKey: 'event_id'
+        });
     };
 
     return users;
