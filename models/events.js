@@ -1,16 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
     const events = sequelize.define('events', {
-        id: {
-            allowNull: false,
-            primaryKey: true,
-            defaultValue: DataTypes.UUIDV4,
-            type: DataTypes.UUID,
-        },
         name: {
             allowNull: false,
             type: DataTypes.STRING,
         },
-        category: {
+        category_id: {
             allowNull: false,
             type: DataTypes.INTEGER,
         },
@@ -19,11 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
         },
         capacity: {
-            allowNull: false,
-            type: DataTypes.INTEGER,
-        },
-        attending: {
-            defaultValue: 0,
             type: DataTypes.INTEGER,
         },
         address: {
@@ -31,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             notEmpty: true,
             type: DataTypes.STRING,
         },
-        neighborhood: {
+        neighborhood_id: {
             allowNull: false,
             type: DataTypes.INTEGER,
         },
@@ -43,26 +32,30 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             type: DataTypes.FLOAT,
         },
-        organizer: {
+        organizer_id: {
             allowNull: false,
             type: DataTypes.INTEGER,
         },
-        event_time: {
+        date_time: {
             allowNull: false,
             type: DataTypes.DATE,
         },
-        event_date: {
-            allowNull: false,
-            type: DataTypes.DATEONLY,
-        },
         duration: {
-            allowNull: false,
             type: DataTypes.INTEGER,
         }
-    }, {});
+    }, { timestamps: false });
 
     events.associate = models => {
         // associations can be defined here
+        events.belongsTo(models.event_categories, { foreignKey: 'category_id' });
+        events.belongsTo(models.new_york_city_neighborhoods, { foreignKey: 'neighborhood_id' });
+        events.belongsTo(models.users, { as: 'organizer', foreignKey: 'organizer_id' });
+        events.belongsToMany(models.users, {
+            as: 'attending',
+            through: models.users_events,
+            foreignKey: 'event_id',
+            otherKey: 'user_id'
+        });
     };
 
     return events;
