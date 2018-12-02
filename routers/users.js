@@ -8,7 +8,7 @@ const router = express.Router();
 // create an user
 router.post('/', controller.create);
 // create an user-event association in users_events join table
-router.post('/event', controller.joinEvent);
+router.post('/:userId/event/:eventId', controller.joinEvent);
 // retrieve all events associated to a user
 router.get('/:userId/event', controller.readAllEvents);
 // retrieve single user

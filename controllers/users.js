@@ -17,7 +17,10 @@ const middlewares = {
     // create an user-event association in users_events join table
     joinEvent(req, res, next) {
         return usersEvents
-            .create(req.body)
+            .create({
+                event_id: req.params.eventId,
+                user_id: req.params.userId
+            })
             .then(userEvent => res.status(201).json(userEvent));
     },
     // retrieve all events associated to a user
