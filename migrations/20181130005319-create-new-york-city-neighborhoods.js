@@ -1,6 +1,6 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('neighborhoods', {
+        return queryInterface.createTable('new_york_city_neighborhoods', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -15,6 +15,6 @@ module.exports = {
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('neighborhoods');
+        return queryInterface.dropTable('new_york_city_neighborhoods');
     }
 };
