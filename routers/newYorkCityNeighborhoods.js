@@ -8,7 +8,7 @@ const router = express.Router();
 // retrieve all neighborhoods
 router.get('/', controller.readAll);
 // retrieve single neighborhood
-router.get('/:neighborhoodId', controller.read);
+router.get('/:neighborhoodName', controller.read);
 // retrieve all events associated to a neighborhood 
 router.get('/:neighborhoodId/event', controller.readAllEvents);
 

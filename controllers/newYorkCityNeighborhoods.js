@@ -15,7 +15,7 @@ const middlewares = {
     // retrieve single neighborhood
     read(req, res, next) {
         return newYorkCityNeighborhoods
-            .findById(req.params.neighborhoodId)
+            .findAll({ where: { name: req.params.neighborhoodName } })
             .then(neighborhood => res.status(200).json(neighborhood));
     },
     // retrieve all events associated to a single neighborhood
