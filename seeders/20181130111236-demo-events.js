@@ -18,8 +18,8 @@ module.exports = {
                 capacity: 50,
                 address: '351 Broadway',
                 neighborhood_id: 152,
-                longitude: 40.7081156,
-                latitude: -73.9570696,
+                latitude: 40.7081156,
+                longitude: -73.9570696,
                 organizer_id: 1,
                 date_time: Sequelize.fn('NOW'),
                 duration: 120
@@ -31,8 +31,8 @@ module.exports = {
                 capacity: 30,
                 address: '86-12 Justice Ave',
                 neighborhood_id: 74,
-                longitude: 40.7379750,
-                latitude: -73.8801301,
+                latitude: 40.7379750,
+                longitude: -73.8801301,
                 organizer_id: 4,
                 date_time: Sequelize.fn('NOW'),
                 duration: 240
@@ -44,8 +44,8 @@ module.exports = {
                 capacity: 20,
                 address: '30-33 32nd St',
                 neighborhood_id: 62,
-                longitude: 40.7643574,
-                latitude: -73.9234619,
+                latitude: 40.7643574,
+                longitude: -73.9234619,
                 organizer_id: 3,
                 date_time: Sequelize.fn('NOW'),
                 duration: 120
@@ -57,8 +57,8 @@ module.exports = {
                 capacity: 30,
                 address: '97-16 101st Ave',
                 neighborhood_id: 97,
-                longitude: 40.6794072,
-                latitude: -73.8507279,
+                latitude: 40.6794072,
+                longitude: -73.8507279,
                 organizer_id: 2,
                 date_time: Sequelize.fn('NOW'),
                 duration: 100
