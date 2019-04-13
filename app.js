@@ -7,7 +7,7 @@ const eventCategoriesRouter = require('./routers/eventCategories');
 const eventsRouter = require('./routers/events');
 const usersRouter = require('./routers/users');
 const newYorkCityNeighborhoodsRouter = require('./routers/newYorkCityNeighborhoods');
-
+const meetupAPI= require('./routers/meetup')
 
 const app = express();
 const PORT = 8000;
@@ -28,6 +28,7 @@ app.use('/user', usersRouter);
 // mount new york city neighborhoods router
 app.use('/neighborhood', newYorkCityNeighborhoodsRouter);
 
+app.use('/meetup', meetupAPI);
 // catch-all route
 app.get('*', (req, res, next) => {
     res.status(200).json({ message: 'Serving requests' });
